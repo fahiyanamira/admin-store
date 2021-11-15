@@ -1,0 +1,28 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>No.</th>
+      <th>Nama Coin</th>
+      <th>Jumlah Coin</th>
+      <th>Harga Coin</th>
+      <th>Aksi</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% nominal.forEach((n, i) => { i++ %>
+        <tr>
+          <td><%= i++ %></td>
+          <td><%= n.coinName %></td>
+          <td><%= n.coinQty %></td>
+          <td><%= n.price %></td>
+          <td>
+            <form action="/nominal/delete/<%= n._id %>?_method=DELETE" method="post">
+              <a href="/nominal/edit/<%= n._id %>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> Ubah</a>
+              <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>
+            </form>
+          </td>
+        </tr>
+       <% }) %>
+    </tbody>
+    
+  </table>
