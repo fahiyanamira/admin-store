@@ -1,0 +1,28 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>No.</th>
+      <th>Nama Pengguna</th>
+      <th>Nama Bank</th>
+      <th>Nomor rekening</th>
+      <th>Aksi</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% bank.forEach((b, i) => { i++ %>
+        <tr>
+          <td><%= i++ %></td>
+          <td><%= b.name %></td>
+          <td><%= b.bankName %></td>
+          <td><%= b.noRekening %></td>
+          <td>
+            <form action="/bank/delete/<%= b._id %>?_method=DELETE" method="post">
+              <a href="/bank/edit/<%= b._id %>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> Ubah</a>
+              <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>
+            </form>
+          </td>
+        </tr>
+       <% }) %>
+    </tbody>
+    
+  </table>

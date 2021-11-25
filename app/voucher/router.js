@@ -6,6 +6,9 @@ const multer = require("multer");
 // import os:
 const os = require("os");
 
+const { isLoginAdmin } = require("../middleware/auth");
+
+router.use(isLoginAdmin);
 router.get("/", index);
 router.get("/create", viewCreate);
 router.post("/create", multer({ dest: os.tmpdir() }).single("image"), actionCreate);

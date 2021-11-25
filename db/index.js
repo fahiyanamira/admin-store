@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 //panggil urlDB:
 const { urlDB } = require("../config");
 mongoose.connect(urlDB, {
-  useCreateIndex: true,
-  useFindAndModify: true,
+  // useCreateIndex: true,
+  // useFindAndModify: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

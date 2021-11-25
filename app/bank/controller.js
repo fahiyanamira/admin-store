@@ -1,4 +1,4 @@
-const Category = require("./model");
+const Bank = require("./model");
 
 module.exports = {
   index: async (req, res) => {
@@ -11,99 +11,99 @@ module.exports = {
       };
 
       //nampilin data dari db:
-      const category = await Category.find();
-      res.render("admin/category/view_category", {
-        category,
+      const bank = await Bank.find();
+      res.render("admin/bank/view_bank", {
+        bank,
         alert,
         name: req.session.user.name,
-        title: "Category",
+        title: "Bank",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/category/create", {
+      res.render("admin/bank/create", {
         name: req.session.user.name,
-        title: "Create Category",
+        title: "Tambah Bank",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
-  actionCategory: async (req, res) => {
+  actionCreate: async (req, res) => {
     try {
-      const { name } = req.body;
-      let category = await Category({ name });
-      await category.save();
+      const { name, bankName, noRekening } = req.body;
+      let bank = await Bank({ name, bankName, noRekening });
+      await bank.save();
 
-      req.flash("alertMessage", "Berhasil menambahkan category");
+      req.flash("alertMessage", "Berhasil menambahkan bank");
       req.flash("alertStatus", "success");
 
-      res.redirect("/category");
+      res.redirect("/bank");
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
   viewEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const category = await Category.findOne({ _id: id });
-      res.render("admin/category/edit", {
-        category,
+      const bank = await Bank.findOne({ _id: id });
+      res.render("admin/bank/edit", {
+        bank,
         name: req.session.user.name,
-        title: "Edit Category",
+        title: "Edit Bank",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { name } = req.body;
+      const { name, bankName, noRekening } = req.body;
 
-      const category = await Category.findOneAndUpdate(
+      const bank = await Bank.findOneAndUpdate(
         {
           _id: id,
         },
-        { name }
+        { name, bankName, noRekening }
       );
 
-      req.flash("alertMessage", "Berhasil edit category");
+      req.flash("alertMessage", "Berhasil edit bank");
       req.flash("alertStatus", "success");
 
-      res.redirect("/category");
+      res.redirect("/bank");
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
   actionDelete: async (req, res) => {
     try {
       const { id } = req.params;
-      const category = await Category.findOneAndRemove({
+      const bank = await Bank.findOneAndRemove({
         _id: id,
       });
 
-      req.flash("alertMessage", "Berhasil menghapus category");
+      req.flash("alertMessage", "Berhasil menghapus bank");
       req.flash("alertStatus", "success");
 
-      res.redirect("/category");
+      res.redirect("/bank");
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/category");
+      res.redirect("/bank");
     }
   },
 };

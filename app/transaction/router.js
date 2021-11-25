@@ -1,13 +1,11 @@
 var express = require("express");
 var router = express.Router();
-const { index } = require("./controller");
+const { index, actionStatus } = require("./controller");
 
-// import middleware:
 const { isLoginAdmin } = require("../middleware/auth");
 
-/* GET home page. */
-//sebelum masuk ke dashboard harus lewatin Login:
 router.use(isLoginAdmin);
 router.get("/", index);
+router.put("/status/:id", actionStatus);
 
 module.exports = router;
