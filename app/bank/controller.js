@@ -15,6 +15,8 @@ module.exports = {
       res.render("admin/bank/view_bank", {
         bank,
         alert,
+        name: req.session.user.name,
+        title: "Bank",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
@@ -24,7 +26,10 @@ module.exports = {
   },
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/bank/create");
+      res.render("admin/bank/create", {
+        name: req.session.user.name,
+        title: "Tambah Bank",
+      });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
@@ -33,8 +38,9 @@ module.exports = {
   },
   actionCreate: async (req, res) => {
     try {
-      const { name, nameBank, noRekening } = req.body;
-      let bank = await Bank({ name, nameBank, noRekening });
+      const { name, bankName, noRekening } = req.body;
+      let bank = await Bank({ name, bankName, noRekening });
+
       await bank.save();
 
       req.flash("alertMessage", "Berhasil menambahkan bank");
@@ -53,6 +59,8 @@ module.exports = {
       const bank = await Bank.findOne({ _id: id });
       res.render("admin/bank/edit", {
         bank,
+        name: req.session.user.name,
+        title: "Edit Bank",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
@@ -63,13 +71,13 @@ module.exports = {
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, nameBank, noRekening } = req.body;
+      const { name, bankName, noRekening } = req.body;
 
       const bank = await Bank.findOneAndUpdate(
         {
           _id: id,
         },
-        { name, nameBank, noRekening }
+        { name, bankName, noRekening }
       );
 
       req.flash("alertMessage", "Berhasil edit bank");
