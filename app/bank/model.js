@@ -1,6 +1,7 @@
 //import mongoose nya:
 const mongoose = require("mongoose");
 
+
 let bankSchema = mongoose.Schema(
   {
     name: {
@@ -18,6 +19,7 @@ let bankSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
 
 //export
 module.exports = mongoose.model("Bank", bankSchema);
