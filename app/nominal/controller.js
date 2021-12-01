@@ -38,8 +38,8 @@ module.exports = {
   },
   actionCreateNominal: async (req, res) => {
     try {
-      const { coinName, coinQty, price } = req.body;
-      let nominal = await Nominal({ coinName, coinQty, price });
+      const { coinName, coinQuantity, price } = req.body;
+      let nominal = await Nominal({ coinName, coinQuantity, price });
       await nominal.save();
 
       req.flash("alertMessage", "Berhasil menambahkan nominal");
@@ -70,13 +70,13 @@ module.exports = {
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { coinName, coinQty, price } = req.body;
+      const { coinName, coinQuantity, price } = req.body;
 
       const nominal = await Nominal.findOneAndUpdate(
         {
           _id: id,
         },
-        { coinName, coinQty, price }
+        { coinName, coinQuantity, price }
       );
 
       req.flash("alertMessage", "Berhasil edit nominal");

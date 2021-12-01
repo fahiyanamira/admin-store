@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 let nominalSchema = mongoose.Schema(
   {
-    coinQty: {
+    coinQuantity: {
       type: Number,
       default: 0,
     },

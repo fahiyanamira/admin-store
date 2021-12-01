@@ -10,5 +10,7 @@ module.exports = {
   rootPath: path.resolve(__dirname, ".."),
   // panggil env
   serviceName: process.env.SERVICE_NAME,
-  urlDB: process.env.MONGO_URL,
+  //DEKLARASI JWTKEY
+  jwtKey: process.env.SECRET,
+  urlDB: process.env.MONGO_URL_PROD,
 };

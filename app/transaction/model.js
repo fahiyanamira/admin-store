@@ -8,7 +8,7 @@ let transactionSchema = mongoose.Schema(
       category: { type: String, require: [true, "Category wajib diisi"] },
       thumbnail: { type: String },
       coinName: { type: String, require: [true, "Nama coin wajib diisi"] },
-      coinQty: { type: String, require: [true, "Jumlah coin wajib diisi"] },
+      coinQuantity: { type: String, require: [true, "Jumlah coin wajib diisi"] },
       price: { type: Number },
     },
     historyPayment: {
