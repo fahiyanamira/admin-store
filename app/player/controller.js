@@ -27,7 +27,8 @@ module.exports = {
       const { id } = req.params;
 
       const voucher = await Voucher.findOne({ _id: id }).populate("category").populate("nominals").populate("user", "_id name phoneNumber");
-      const payment = await Payment.find({ _id: id }).populate("banks");
+      // const payment = await Payment.find().populate("banks");
+      const payment = await Payment.find().populate("banks");
 
       //cek apakah vouchernya ada atau tidak:
       if (!voucher) {
