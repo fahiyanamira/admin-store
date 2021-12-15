@@ -36,7 +36,6 @@ let playerSchema = mongoose.Schema(
       enum: ["Y", "N"],
       default: "Y",
     },
-    avatar: { type: String },
     fileName: { type: String },
     phoneNumber: {
       type: String,
@@ -48,14 +47,17 @@ let playerSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+    avatar: { type: String },
   },
   { timestamps: true }
 );
 
 //cek email gabole sama:
 playerSchema.path("email").validate(
+  //value berisi email dari body
   async function (value) {
     try {
+      //cek pass:
       const count = await this.model("Player").countDocuments({ email: value });
       return !count;
     } catch (err) {
