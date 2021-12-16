@@ -257,7 +257,7 @@ module.exports = {
 
         let player = await Player.findOne({ _id: req.player._id });
         // let currentImage = `${config.rootPath}/public/uploads/${player.avatar}`;
-        let currentImage = `https://res.cloudinary.com/dypyycy6g/image/upload/${player.avatar}`;
+        let currentImage = `${result.secure_url}${player.avatar}`;
         //jika file nya ada didalem cloudinary:
         if (currentImage) {
           // fs.unlinkSync(currentImage);
