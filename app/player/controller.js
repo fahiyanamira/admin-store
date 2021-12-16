@@ -11,6 +11,8 @@ const path = require("path");
 const fs = require("fs");
 //import config:
 const config = require("../../config");
+const cloudinary = require("../../utils/cloudinary");
+const upload = require("../../utils/multer");
 
 module.exports = {
   landingPage: async (req, res) => {
@@ -235,56 +237,57 @@ module.exports = {
     try {
       const { name = "", phoneNumber = "" } = req.body;
       const payload = {};
+      const result = await cloudinary.uploader.upload(req.file.path);
 
       //kondisi name ada isinya nanti masuk ke payload:
       if (name.length) payload.name = name;
       if (phoneNumber.length) payload.phoneNumber = phoneNumber;
 
       //kondisi kirim file:
-      if (req.file) {
-        let tmp_path = req.file.path;
-        let originaExt = req.file.originalname.split(".")[req.file.originalname.split(".").length - 1];
-        let filename = req.file.filename + "." + originaExt;
-        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
+      if (result) {
+        // let tmp_path = req.file.path;
+        // let originaExt = req.file.originalname.split(".")[req.file.originalname.split(".").length - 1];
+        // let filename = req.file.filename + "." + originaExt;
+        // let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-        const src = fs.createReadStream(tmp_path);
-        const dest = fs.createWriteStream(target_path);
+        // const src = fs.createReadStream(tmp_path);
+        // const dest = fs.createWriteStream(target_path);
 
-        src.pipe(dest);
+        // src.pipe(dest);
 
-        src.on("end", async () => {
-          let player = await Player.findOne({ _id: req.player._id });
-          let currentImage = `${config.rootPath}/public/uploads/${player.avatar}`;
-          //jika file nya ada didalem folder public, folder uploads:
-          if (fs.existsSync(currentImage)) {
-            //file akan di remove
-            fs.unlinkSync(currentImage);
-          }
-          //else akan update berdasarkan id:
-          player = await Player.findOneAndUpdate(
-            { _id: req.player._id },
-            {
-              ...payload,
-              avatar: filename,
-            },
-            { new: true, runValidators: true }
-          );
+        let player = await Player.findOne({ _id: req.player._id });
+        // let currentImage = `${config.rootPath}/public/uploads/${player.avatar}`;
+        let currentImage = `https://res.cloudinary.com/dypyycy6g/image/upload/${player.avatar}`;
+        //jika file nya ada didalem cloudinary:
+        if (currentImage) {
+          // fs.unlinkSync(currentImage);
+          //file akan di remove
+          await cloudinary.uploader.destroy(user.currentImage);
+        }
+        //else akan update berdasarkan id:
+        player = await Player.findOneAndUpdate(
+          { _id: req.player._id },
+          {
+            ...payload,
+            avatar: result.url,
+          },
+          { new: true, runValidators: true }
+        );
 
-          // console.log(player);
+        // console.log(player);
 
-          res.status(201).json({
-            data: {
-              id: player.id,
-              name: player.name,
-              phoneNumber: player.phoneNumber,
-              avatar: player.avatar,
-            },
-          });
+        res.status(201).json({
+          data: {
+            id: player.id,
+            name: player.name,
+            phoneNumber: player.phoneNumber,
+            avatar: player.avatar,
+          },
         });
 
-        src.on("err", async () => {
-          next(err);
-        });
+        // src.on("err", async () => {
+        //   next(err);
+        // });
       } else {
         const player = await Player.findOneAndUpdate(
           {
