@@ -21,7 +21,7 @@ module.exports = {
       //kondisi kalau file ada:
       if (result) {
         //buat instance:
-        const player = new Player({ ...payload, avatar: result.url });
+        const player = new Player({ ...payload, avatar: result.url, cloudinaryID: result.public_id });
 
         //di save
         await player.save();

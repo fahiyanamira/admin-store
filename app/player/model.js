@@ -48,6 +48,7 @@ let playerSchema = mongoose.Schema(
       ref: "Category",
     },
     avatar: { type: String },
+    cloudinaryID: { type: String },
   },
   { timestamps: true }
 );

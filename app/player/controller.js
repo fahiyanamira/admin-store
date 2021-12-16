@@ -246,13 +246,13 @@ module.exports = {
       if (req.file.path) {
         let player = await Player.findOne({ _id: req.player._id });
         // let currentImage = `${config.rootPath}/public/uploads/${player.avatar}`;
-        let currentImage = `${result.secure_url}${player.avatar}`;
+        // let currentImage = `${result.url}/${player.avatar}`;
         //jika file nya ada didalem cloudinary:
-        if (currentImage) {
-          // fs.unlinkSync(currentImage);
-          //file akan di remove
-          await cloudinary.uploader.destroy(user.currentImage);
-        }
+        // if (currentImage) {
+        // fs.unlinkSync(currentImage);
+        //file akan di remove
+        await cloudinary.uploader.destroy(player.cloudinaryID);
+        // }
         //upload file gambar baru
         const result = await cloudinary.uploader.upload(req.file.path);
         //else akan update berdasarkan id:
@@ -261,6 +261,7 @@ module.exports = {
           {
             ...payload,
             avatar: result.url,
+            cloudinaryID: result.public_id,
           },
           { new: true, runValidators: true }
         );
@@ -273,6 +274,7 @@ module.exports = {
             name: player.name,
             phoneNumber: player.phoneNumber,
             avatar: player.avatar,
+            cloudinaryID: player.cloudinaryID,
           },
         });
       } else {
@@ -290,6 +292,7 @@ module.exports = {
             name: player.name,
             phoneNumber: player.phoneNumber,
             avatar: player.avatar,
+            cloudinaryID: player.cloudinaryID,
           },
         });
       }
