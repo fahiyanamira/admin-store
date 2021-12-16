@@ -237,24 +237,13 @@ module.exports = {
     try {
       const { name = "", phoneNumber = "" } = req.body;
       const payload = {};
-      const result = await cloudinary.uploader.upload(req.file.path);
 
       //kondisi name ada isinya nanti masuk ke payload:
       if (name.length) payload.name = name;
       if (phoneNumber.length) payload.phoneNumber = phoneNumber;
 
       //kondisi kirim file:
-      if (result) {
-        // let tmp_path = req.file.path;
-        // let originaExt = req.file.originalname.split(".")[req.file.originalname.split(".").length - 1];
-        // let filename = req.file.filename + "." + originaExt;
-        // let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
-
-        // const src = fs.createReadStream(tmp_path);
-        // const dest = fs.createWriteStream(target_path);
-
-        // src.pipe(dest);
-
+      if (req.file.path) {
         let player = await Player.findOne({ _id: req.player._id });
         // let currentImage = `${config.rootPath}/public/uploads/${player.avatar}`;
         let currentImage = `${result.secure_url}${player.avatar}`;
@@ -264,6 +253,8 @@ module.exports = {
           //file akan di remove
           await cloudinary.uploader.destroy(user.currentImage);
         }
+        //upload file gambar baru
+        const result = await cloudinary.uploader.upload(req.file.path);
         //else akan update berdasarkan id:
         player = await Player.findOneAndUpdate(
           { _id: req.player._id },
@@ -284,10 +275,6 @@ module.exports = {
             avatar: player.avatar,
           },
         });
-
-        // src.on("err", async () => {
-        //   next(err);
-        // });
       } else {
         const player = await Player.findOneAndUpdate(
           {
