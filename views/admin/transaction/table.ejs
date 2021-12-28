@@ -21,13 +21,13 @@
 
                         </li>
                     </ul>
-                    <%= transaction[i].historyVoucherTopup.gameName %>
+                    <%= transaction[i]?.historyVoucherTopup.gameName %>
                     <br>
-                    <%= transaction[i].historyVoucherTopup.category %>
+                    <%= transaction[i]?.historyVoucherTopup.category %>
                 </td>
                 <td>
-                    <%= transaction[i].historyVoucherTopup.coinQuantity %>
-                    <%= transaction[i].historyVoucherTopup.coinName %>
+                    <%= transaction[i]?.historyVoucherTopup.coinQuantity %>
+                    <%= transaction[i]?.historyVoucherTopup.coinName %>
                 </td>
                 <td>
                     <%= transaction[i].value %> 
@@ -49,14 +49,14 @@
                     <% } %>
                 </td>
                 <td>
-                    <%= transaction[i].player.name %> 
+                    <%= transaction[i]?.player?.name ?? "-" %> 
                 </td>
                 <td>
-                    <form style="display: inline-block" action="/transaction/status/<%= transaction[i]._id %>?status=failed&_method=PUT" method="post">
+                    <form style="display: inline-block" action="/transaction/status/<%= transaction[i]._id %>?status=failed&_method=PUT" method="POST">
                         <button class="btn btn-danger"><i class="fas fa-times-circle"></i> Tolak</button>
                     </form>
-                    <form style="display: inline-block" action="/transaction/status/<%= transaction[i]._id %>?status=success&_method=PUT" method="post">
-                        <button class="btn btn-primary"><i class="fas fa-check"></i> Terima</button>
+                    <form style="display: inline-block" action="/transaction/status/<%= transaction[i]._id %>?status=success&_method=PUT" method="POST">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Terima</button>
                     </form>
                 </td>
                
