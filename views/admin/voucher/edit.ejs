@@ -114,7 +114,7 @@
         if(input.files && input.files[0]){
             const reader = new FileReader();
 
-            reader.onload = (e) => {
+            reader.onload = function(e) {
                 $("#preview").attr("src", e.target.result);
                 $("#preview").attr("width", "20%");
                 $("#preview").attr("height", "20%");
@@ -123,7 +123,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    $("image").change(function(){
+    $("#image").change(function(){
         readURL(this);
     })
 </script>
