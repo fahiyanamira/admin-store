@@ -18,35 +18,18 @@ module.exports = {
       const payload = req.body;
       const result = await cloudinary.uploader.upload(req.file.path);
 
-      //kondisi kalau file ada:
-      if (result) {
-        //buat instance:
-        const player = new Player({ ...payload, avatar: result.url, cloudinaryID: result.public_id });
+      //buat instance:
+      const player = new Player({ ...payload, avatar: result.url, cloudinaryID: result.public_id });
 
-        //di save
-        await player.save();
+      //di save
+      await player.save();
 
-        //delete passwordnya:
-        //mongoose harus masuk ke doc nya baru hapus field pass nya
-        delete player._doc.password;
+      //delete passwordnya:
+      //mongoose harus masuk ke doc nya baru hapus field pass nya
+      delete player._doc.password;
 
-        //kasih respon
-        res.status(201).json({ data: player });
-      }
-      // else {
-      //   //kalau gaada:
-      //   let player = new Player(payload);
-      //   await player.save();
-
-      //   //delete passwordnya:
-      //   //mongoose harus masuk ke doc nya baru hapus field pass nya
-      //   delete player._doc.password;
-
-      //   //kirim respon:
-      //   res.status(201).json({
-      //     data: player,
-      //   });
-      // }
+      //kasih respon
+      res.status(201).json({ data: player });
     } catch (err) {
       if (err && err.name === "ValidationError") {
         return res.status(422).json({
