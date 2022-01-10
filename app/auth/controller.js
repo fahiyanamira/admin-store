@@ -32,20 +32,21 @@ module.exports = {
 
         //kasih respon
         res.status(201).json({ data: player });
-      } else {
-        //kalau gaada:
-        let player = new Player(payload);
-        await player.save();
-
-        //delete passwordnya:
-        //mongoose harus masuk ke doc nya baru hapus field pass nya
-        delete player._doc.password;
-
-        //kirim respon:
-        res.status(201).json({
-          data: player,
-        });
       }
+      // else {
+      //   //kalau gaada:
+      //   let player = new Player(payload);
+      //   await player.save();
+
+      //   //delete passwordnya:
+      //   //mongoose harus masuk ke doc nya baru hapus field pass nya
+      //   delete player._doc.password;
+
+      //   //kirim respon:
+      //   res.status(201).json({
+      //     data: player,
+      //   });
+      // }
     } catch (err) {
       if (err && err.name === "ValidationError") {
         return res.status(422).json({
