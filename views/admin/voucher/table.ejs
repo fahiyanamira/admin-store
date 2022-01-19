@@ -23,27 +23,13 @@
                     <% }) %>
                 </td>
                 <td>
-                    <% if (voucher[i].status === "Y") { %>
-                        <span class="badge badge-success">
-                            Aktif
-                        </span>
-                    <% }else{ %>
-                        <span class="badge badge-danger">
-                           Non Aktif
-                        </span>
-
-                    <% } %>
+                    <!-- kondisi voucher status -->
+                    
                 </td>
                 <td>
                     <form action="/voucher/status/<%= voucher[i]._id %>?_method=PUT" method="POST" style="display: inline-block">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-folder"></i>
-                            <% if (voucher[i].status === "Y") { %>
-                                Matikan
-                            <% }else{ %>
-                                Hidupkan
-                            <% } %>
-                        </button>
+                        <!-- kondisi button status -->
+                        
                     </form>
                     <form style="display: inline-block" action="/voucher/delete/<%= voucher[i]._id %>?_method=DELETE" method="post">
                         <a href="/voucher/edit/<%= voucher[i]._id %>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> Ubah</a>
